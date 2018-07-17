@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -9,18 +10,24 @@ import (
 
 func main() {
 
-	args := []string{"."}
-	result := []string{}
+	name := flag.String("name", "", "-name \"[a-z]+\"")
+	flag.Parse()
 
-	if len(os.Args) > 1 {
-		args = os.Args[1:]
+	result := []string{}
+	args := []string{"."}
+
+	flagArgs := flag.Args()
+
+	if len(flagArgs) > 1 {
+		args = flagArgs
 	}
 
-	regex := "[a-zA-Z]+"
+	fmt.Printf("args: %s\nname: %s", flagArgs, *name)
+	fmt.Scanln()
 
 	for _, folder := range args {
 
-		err := find(folder, regex, &result)
+		err := find(folder, *name, &result)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "%v\n", err)
 		}
