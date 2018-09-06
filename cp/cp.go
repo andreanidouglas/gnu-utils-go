@@ -44,6 +44,7 @@ func cp(src, dest string) error {
 
 	re := bufio.NewReader(file)
 	wr := bufio.NewWriter(newFile)
+	defer wr.Flush()
 
 	bytesCount, err := io.Copy(wr, re)
 	if err != nil {
